@@ -1,5 +1,5 @@
 {
-  "name": "NodeProject",
+  "name": "image-processing-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -42,11 +42,5 @@
     "jasmine-spec-reporter": "^7.0.0",
     "jest": "^27.0.3",
     "morgan": "^1.10.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
   }
 }
