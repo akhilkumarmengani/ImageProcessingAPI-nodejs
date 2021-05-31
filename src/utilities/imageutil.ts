@@ -15,7 +15,7 @@ const getNameAndExtension = (sourcePath: string): [string, string] => {
   if (arr.length > 1) arr.pop();
   let filename = arr.length > 0 ? arr.join('+') : '';
   return [filename, ext];
-}
+};
 
 const getOriginalImageName = async (filename: string): Promise<string> => {
   let result: string = '';

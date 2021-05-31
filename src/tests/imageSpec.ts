@@ -52,13 +52,17 @@ describe('Image Processing API Suite', () => {
     expect(validator.isValidParameters('Spacex', 0, 100)).toBeFalsy();
   });
 
-  it('Endpoint Test Success',async () =>{
-        const response = await request.get('/api/image?filename=Spacex1&width=200&height=200');
-        expect(response.status).toBe(200);
+  it('Endpoint Test Success', async () => {
+    const response = await request.get(
+      '/api/image?filename=Spacex1&width=200&height=200'
+    );
+    expect(response.status).toBe(200);
   });
 
-  it('Endpoint Test Failure',async () =>{
-    const response = await request.get('/api/image?filename=Spacex1&width=0&height=200');
+  it('Endpoint Test Failure', async () => {
+    const response = await request.get(
+      '/api/image?filename=Spacex1&width=0&height=200'
+    );
     expect(response.status).toBe(400);
-});
+  });
 });

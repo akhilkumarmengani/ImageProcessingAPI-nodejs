@@ -2,9 +2,9 @@ import morgan from 'morgan';
 import express from 'express';
 
 const validateURL = (
-    req: express.Request,
-    res: express.Response,
-    next: Function,
+  req: express.Request,
+  res: express.Response,
+  next: Function
 ): void => {
   const filename: string = req.query.filename as string;
   const width: number = parseInt(req.query.width as string);
@@ -13,19 +13,15 @@ const validateURL = (
   const isValid = isValidParameters(filename, width, height);
 
   if (!isValid) {
-    res
-        .status(400)
-        .send(
-            'Please provide valid parameters to resize',
-        );
+    res.status(400).send('Please provide valid parameters to resize');
   }
   next();
 };
 
 const isValidParameters = (
-    filename: string,
-    width: number,
-    height: number,
+  filename: string,
+  width: number,
+  height: number
 ): boolean => {
   let isValid: boolean = true;
   if (filename === '' || !filename) {
@@ -39,4 +35,4 @@ const isValidParameters = (
 
 const tiny = morgan('tiny');
 
-export default {tiny, validateURL, isValidParameters};
+export default { tiny, validateURL, isValidParameters };
