@@ -3,8 +3,8 @@ import fs from 'fs';
 import { promises as fsAsync } from 'fs';
 import path from 'path';
 
-const origImageFolder = '../../public/images/';
-const resizeImageFolder = '../../public/rs-images/';
+const origImageFolder:string = '../../public/images/';
+const resizeImageFolder:string = '../../public/rs-images/';
 
 const getNameAndExtension = (sourcePath: string): [string, string] => {
   const arr: string[] = sourcePath.split('.');

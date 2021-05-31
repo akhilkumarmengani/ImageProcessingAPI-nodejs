@@ -1,18 +1,19 @@
 import path from 'path';
 import util from '../utilities/imageutil';
 import validator from '../middleware/validator';
+import express from 'express';
 
 import supertest from 'supertest';
 import app from '../index';
 
 const request = supertest(app);
 
-const origImages = ['Spacex1.jpeg', 'Spacex4'];
-const errImages = ['Nasa1.jpeg', 'Nasa2'];
-const imageFolder = '../../public/images/';
-const resizeFolder = '../../public/rs-images/';
-const imagesPath = path.join(__dirname, imageFolder);
-const resizePath = path.join(__dirname, resizeFolder);
+const origImages : string[] = ['Spacex1.jpeg', 'Spacex4'];
+const errImages : string[]= ['Nasa1.jpeg', 'Nasa2'];
+const imageFolder : string = '../../public/images/';
+const resizeFolder : string = '../../public/rs-images/';
+const imagesPath : string = path.join(__dirname, imageFolder);
+const resizePath : string = path.join(__dirname, resizeFolder);
 
 describe('Image Processing API Suite', () => {
   it('Image path test', () => {
@@ -53,7 +54,7 @@ describe('Image Processing API Suite', () => {
   });
 
   it('Endpoint Test Success', async () => {
-    const response = await request.get(
+    let response = await request.get(
       '/api/image?filename=Spacex1&width=200&height=200'
     );
     expect(response.status).toBe(200);

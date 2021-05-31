@@ -10,7 +10,7 @@ const validateURL = (
   const width: number = parseInt(req.query.width as string);
   const height: number = parseInt(req.query.height as string);
 
-  const isValid = isValidParameters(filename, width, height);
+  const isValid : boolean = isValidParameters(filename, width, height);
 
   if (!isValid) {
     res.status(400).send('Please provide valid parameters to resize');
