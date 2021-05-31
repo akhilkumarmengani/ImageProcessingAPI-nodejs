@@ -12,3 +12,4 @@ app.use('/public', express_1.default.static(path_1.default.join(__dirname, 'publ
 app.use('/api', [validator_1.default.tiny], index_1.default);
 app.listen(3000);
 console.log('Server is listening on port 3000');
+exports.default = app;

@@ -42,6 +42,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var imageutil_1 = __importDefault(require("../utilities/imageutil"));
 var validator_1 = __importDefault(require("../middleware/validator"));
+var supertest_1 = __importDefault(require("supertest"));
+var index_1 = __importDefault(require("../index"));
+var request = supertest_1.default(index_1.default);
 var origImages = ['Spacex1.jpeg', 'Spacex4'];
 var errImages = ['Nasa1.jpeg', 'Nasa2'];
 var imageFolder = '../../public/images/';
@@ -110,4 +113,28 @@ describe('Image Processing API Suite', function () {
     it('Invalid URL test', function () {
         expect(validator_1.default.isValidParameters('Spacex', 0, 100)).toBeFalsy();
     });
+    it('Endpoint Test Success', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/image?filename=Spacex1&width=200&height=200')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(200);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Endpoint Test Failure', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/image?filename=Spacex1&width=0&height=200')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(400);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });

@@ -2,6 +2,11 @@ import path from 'path';
 import util from '../utilities/imageutil';
 import validator from '../middleware/validator';
 
+import supertest from 'supertest';
+import app from '../index';
+
+const request = supertest(app);
+
 const origImages = ['Spacex1.jpeg', 'Spacex4'];
 const errImages = ['Nasa1.jpeg', 'Nasa2'];
 const imageFolder = '../../public/images/';
@@ -46,4 +51,14 @@ describe('Image Processing API Suite', () => {
   it('Invalid URL test', () => {
     expect(validator.isValidParameters('Spacex', 0, 100)).toBeFalsy();
   });
+
+  it('Endpoint Test Success',async () =>{
+        const response = await request.get('/api/image?filename=Spacex1&width=200&height=200');
+        expect(response.status).toBe(200);
+  });
+
+  it('Endpoint Test Failure',async () =>{
+    const response = await request.get('/api/image?filename=Spacex1&width=0&height=200');
+    expect(response.status).toBe(400);
+});
 });

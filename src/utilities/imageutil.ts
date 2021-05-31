@@ -6,7 +6,7 @@ import path from 'path';
 const origImageFolder = '../../public/images/';
 const resizeImageFolder = '../../public/rs-images/';
 
-function getNameAndExtension(sourcePath: string): [string, string] {
+const getNameAndExtension = (sourcePath: string): [string, string] => {
   const arr: string[] = sourcePath.split('.');
   if (arr.length == 1) {
     return [arr[0], ''];

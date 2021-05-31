@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var morgan_1 = __importDefault(require("morgan"));
 var validateURL = function (req, res, next) {
-    var url = req.url;
     var filename = req.query.filename;
     var width = parseInt(req.query.width);
     var height = parseInt(req.query.height);
@@ -13,7 +12,7 @@ var validateURL = function (req, res, next) {
     if (!isValid) {
         res
             .status(400)
-            .send('Please provide valid parameters to resize \n Check filename , width > 0 , height > 0');
+            .send('Please provide valid parameters to resize');
     }
     next();
 };

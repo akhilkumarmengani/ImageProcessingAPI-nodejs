@@ -45,7 +45,7 @@ var fs_2 = require("fs");
 var path_1 = __importDefault(require("path"));
 var origImageFolder = '../../public/images/';
 var resizeImageFolder = '../../public/rs-images/';
-function getNameAndExtension(sourcePath) {
+var getNameAndExtension = function (sourcePath) {
     var arr = sourcePath.split('.');
     if (arr.length == 1) {
         return [arr[0], ''];
@@ -55,7 +55,7 @@ function getNameAndExtension(sourcePath) {
         arr.pop();
     var filename = arr.length > 0 ? arr.join('+') : '';
     return [filename, ext];
-}
+};
 var getOriginalImageName = function (filename) { return __awaiter(void 0, void 0, void 0, function () {
     var result, imageFolder, allImages;
     return __generator(this, function (_a) {
