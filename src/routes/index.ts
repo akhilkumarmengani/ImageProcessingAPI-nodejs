@@ -4,7 +4,7 @@ import util from '../utilities/imageutil';
 
 const routes = express.Router();
 
-routes.get('/image', validator.validateURL, async (req, res) => {
+routes.get('/image', validator.validateURL, async (req:express.Request, res:express.Response): Promise<void> => {
   let [filename, ext]: [string, string] = util.getNameAndExtension(
     req.query.filename as string
   );
