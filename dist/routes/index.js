@@ -43,30 +43,28 @@ var express_1 = __importDefault(require("express"));
 var validator_1 = __importDefault(require("../middleware/validator"));
 var imageutil_1 = __importDefault(require("../utilities/imageutil"));
 var routes = express_1.default.Router();
-//routes.use('/',[validator.tiny,validator.validateURL],main);
-//routes.use('/api/image',[validator.tiny],main);
 routes.get('/image', validator_1.default.validateURL, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, filename, ext, width, height, image;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = imageutil_1.default.getNameAndExtension(req.query.filename), filename = _a[0], ext = _a[1];
-                console.log(filename + '-' + ext);
                 width = parseInt(req.query.width);
                 height = parseInt(req.query.height);
                 return [4 /*yield*/, imageutil_1.default.resizeImage(filename, width, height)];
             case 1:
                 image = _b.sent();
-                console.log('Image Name - ' + image);
                 //res.type("jpeg").status(200);
                 //fs.createReadStream(image).pipe(res);
                 if (image === '__NOT_FOUND__') {
-                    res.status(400).send("Image Not Found!!");
+                    res.status(400).send('Image Not Found!!');
+                }
+                else if (image === '__ERROR__') {
+                    res.status(400).send('Image Resize Error!!');
                 }
                 else {
                     res.status(200).sendFile(image);
                 }
-                console.log('Image Sent - ' + image);
                 return [2 /*return*/];
         }
     });

@@ -29,11 +29,11 @@ var CustomProcessor = /** @class */ (function (_super) {
 jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(new jasmine_spec_reporter_1.SpecReporter({
     suite: {
-        displayNumber: true,
+        displayNumber: true
     },
     spec: {
-        displayStacktrace: jasmine_spec_reporter_1.StacktraceOption.NONE,
+        displayStacktrace: jasmine_spec_reporter_1.StacktraceOption.NONE
         //displayPending: true,
     },
-    customProcessors: [CustomProcessor],
+    customProcessors: [CustomProcessor]
 }));

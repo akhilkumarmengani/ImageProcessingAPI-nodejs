@@ -11,7 +11,9 @@ var validateURL = function (req, res, next) {
     var height = parseInt(req.query.height);
     var isValid = isValidParameters(filename, width, height);
     if (!isValid) {
-        res.status(400).send('Please provide valid parameters to resize \n Check filename , width > 0 , height > 0');
+        res
+            .status(400)
+            .send('Please provide valid parameters to resize \n Check filename , width > 0 , height > 0');
     }
     next();
 };

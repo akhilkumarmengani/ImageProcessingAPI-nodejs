@@ -48,11 +48,11 @@ var imageFolder = '../../public/images/';
 var resizeFolder = '../../public/rs-images/';
 var imagesPath = path_1.default.join(__dirname, imageFolder);
 var resizePath = path_1.default.join(__dirname, resizeFolder);
-describe("Image Processing API Suite", function () {
-    it("Image path test", function () {
+describe('Image Processing API Suite', function () {
+    it('Image path test', function () {
         expect(imageutil_1.default.getNameAndExtension(origImages[0])[0]).toEqual('Spacex1');
     });
-    it("Image exists test", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Image exists test', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -65,7 +65,7 @@ describe("Image Processing API Suite", function () {
             }
         });
     }); });
-    it("Image not exists test", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Image not exists test', function () { return __awaiter(void 0, void 0, void 0, function () {
         var isExists;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -77,7 +77,7 @@ describe("Image Processing API Suite", function () {
             }
         });
     }); });
-    it("Image resize test", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Image resize test', function () { return __awaiter(void 0, void 0, void 0, function () {
         var filename, resultPath, _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -93,7 +93,7 @@ describe("Image Processing API Suite", function () {
             }
         });
     }); });
-    it("Image not found test", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Image not found test', function () { return __awaiter(void 0, void 0, void 0, function () {
         var filename, _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -102,12 +102,12 @@ describe("Image Processing API Suite", function () {
                     _a = expect;
                     return [4 /*yield*/, imageutil_1.default.resizeImage(filename, 100, 100)];
                 case 1:
-                    _a.apply(void 0, [_b.sent()]).toEqual("__NOT_FOUND__");
+                    _a.apply(void 0, [_b.sent()]).toEqual('__NOT_FOUND__');
                     return [2 /*return*/];
             }
         });
     }); });
-    it("Invalid URL test", function () {
+    it('Invalid URL test', function () {
         expect(validator_1.default.isValidParameters('Spacex', 0, 100)).toBeFalsy();
     });
 });
