@@ -1,20 +1,40 @@
 import sharp from 'sharp';
 import fs from 'fs';
-//import fsAsync from 'fs/promises';
 import {promises as fsAsync} from 'fs'
 import path from 'path';
-import express from 'express';
 
-const origImageFolder = '../public/images';
-const resizeImageFolder = '../public/resize';
+const origImageFolder = '../../public/images/';
+const resizeImageFolder = '../../public/rs-images/';
 
 function getNameAndExtension(sourcePath : string) : [string,string]{
     const arr: string[] = sourcePath.split('.');
+    if(arr.length==1){
+      return [arr[0],''];
+    }
     let ext = arr[arr.length-1];
     if(arr.length>1)
         arr.pop();
     let filename = arr.length>0? arr.join('+'):'';
     return [filename,ext];
+}
+
+const getOriginalImageName = async(filename : string) : Promise<string> => {
+    let result : string = '';
+    let imageFolder = path.join(__dirname,'../../public/images/');
+    let allImages: string[] = await fsAsync.readdir(imageFolder);
+
+    allImages.forEach(file => {
+        let [name,ext]:[string,string] = getNameAndExtension(file);
+        if(filename===name){
+           if(ext===''){
+              result = name;
+           }
+           else {
+             result = name+'.'+ext;
+           }
+        }
+    });
+    return result;
 }
 
 const resize = async (
@@ -26,11 +46,10 @@ const resize = async (
   
   return new Promise((resolve) => {  
     setTimeout(async () => {
-      console.log(sourcePath+'-A-'+destinationPath);
       const readStream : fs.ReadStream = fs.createReadStream(sourcePath);
-      const writeStream : fs.WriteStream = fs.createWriteStream(destinationPath+'.jpeg');
+      const writeStream : fs.WriteStream = fs.createWriteStream(destinationPath);
 
-      let file = await fsAsync.open(destinationPath + '.jpeg', "w");
+      let file = await fsAsync.open(destinationPath, "w");
       await (file).write(
         await sharp(
             sourcePath
@@ -45,16 +64,14 @@ const resize = async (
 }
 
 const isImageExists =  async (filename:string, folder: string) : Promise<boolean> =>{
-
     let imageFolder :string = '';
     if(folder === origImageFolder){
-      imageFolder =  path.join(__dirname,'../public/images');
+      imageFolder =  path.join(__dirname,'../../public/images');
     }
     else if (folder === resizeImageFolder){
-      imageFolder =  path.join(__dirname,'../public/rs-images');
+      imageFolder =  path.join(__dirname,'../../public/rs-images');
     }
-    if(imageFolder === ''){
-      console.log('false returned');
+    if(filename === '' || imageFolder === ''){
       return false;
     }
     let isFound : boolean = false;
@@ -70,18 +87,18 @@ const isImageExists =  async (filename:string, folder: string) : Promise<boolean
 };
 
 async function resizeImage(filename : string , width : number , height : number): Promise<string>{
-    let isExists : boolean = await isImageExists(filename,origImageFolder);
-    let originalPath : string = path.join(__dirname,'../public/images/'+filename+'.jpeg');
+    let isExists : boolean = await isImageExists(filename,origImageFolder); 
     let destinationPath : string = '';
-    console.log(isExists);
     if(!isExists){
         return "__NOT_FOUND__";
     }
     else{
         try{
-          let isResizeImageExists : boolean = await isImageExists(filename,resizeImageFolder);
-          destinationPath = path.join(__dirname,'../public/rs-images/'+filename);
-          console.log(isResizeImageExists);
+          let origName : string = await getOriginalImageName(filename);
+          let originalPath : string = path.join(__dirname,'../../public/images/'+origName);
+          let rsFileName : string = filename+'_'+width+'_'+height;
+          let isResizeImageExists : boolean = await isImageExists(rsFileName,resizeImageFolder);
+          destinationPath = path.join(__dirname,'../../public/rs-images/'+rsFileName+'.jpeg');
           if(!isResizeImageExists){
             await resize(originalPath,destinationPath,width,height);
             console.log('Image Resize Complete!!');
@@ -89,9 +106,10 @@ async function resizeImage(filename : string , width : number , height : number)
         }
         catch (e){
             console.log(e.message + "Image Resize Error!!");
+            destinationPath = '__ERROR__';
         }
     }
-    return destinationPath+'.jpeg';
+    return destinationPath;
 }
 
 export default {resizeImage,getNameAndExtension,isImageExists};

@@ -22,7 +22,7 @@ var CustomProcessor = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CustomProcessor.prototype.displayJasmineStarted = function (_info, log) {
-        return 'TypeScript ${log}';
+        return '${log}';
     };
     return CustomProcessor;
 }(jasmine_spec_reporter_1.DisplayProcessor));
@@ -33,7 +33,7 @@ jasmine.getEnv().addReporter(new jasmine_spec_reporter_1.SpecReporter({
     },
     spec: {
         displayStacktrace: jasmine_spec_reporter_1.StacktraceOption.NONE,
-        displayPending: true,
+        //displayPending: true,
     },
     customProcessors: [CustomProcessor],
 }));

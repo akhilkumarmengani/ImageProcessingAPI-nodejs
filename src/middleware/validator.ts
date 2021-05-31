@@ -30,5 +30,5 @@ const isValidParameters = (filename : string , width : number , height : number)
 
 const tiny = morgan('tiny');
 
-export default {tiny,validateURL};
+export default {tiny,validateURL,isValidParameters};
 

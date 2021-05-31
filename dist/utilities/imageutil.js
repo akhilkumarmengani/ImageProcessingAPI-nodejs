@@ -44,16 +44,44 @@ var fs_1 = __importDefault(require("fs"));
 //import fsAsync from 'fs/promises';
 var fs_2 = require("fs");
 var path_1 = __importDefault(require("path"));
-var origImageFolder = '../public/images';
-var resizeImageFolder = '../public/resize';
+var origImageFolder = '../../public/images/';
+var resizeImageFolder = '../../public/rs-images/';
 function getNameAndExtension(sourcePath) {
     var arr = sourcePath.split('.');
+    if (arr.length == 1) {
+        return [arr[0], ''];
+    }
     var ext = arr[arr.length - 1];
     if (arr.length > 1)
         arr.pop();
     var filename = arr.length > 0 ? arr.join('+') : '';
     return [filename, ext];
 }
+var getOriginalImageName = function (filename) { return __awaiter(void 0, void 0, void 0, function () {
+    var result, imageFolder, allImages;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                result = '';
+                imageFolder = path_1.default.join(__dirname, '../../public/images/');
+                return [4 /*yield*/, fs_2.promises.readdir(imageFolder)];
+            case 1:
+                allImages = _a.sent();
+                allImages.forEach(function (file) {
+                    var _a = getNameAndExtension(file), name = _a[0], ext = _a[1];
+                    if (filename === name) {
+                        if (ext === '') {
+                            result = name;
+                        }
+                        else {
+                            result = name + '.' + ext;
+                        }
+                    }
+                });
+                return [2 /*return*/, result];
+        }
+    });
+}); };
 var resize = function (sourcePath, destinationPath, width, height) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         return [2 /*return*/, new Promise(function (resolve) {
@@ -64,8 +92,8 @@ var resize = function (sourcePath, destinationPath, width, height) { return __aw
                             case 0:
                                 console.log(sourcePath + '-A-' + destinationPath);
                                 readStream = fs_1.default.createReadStream(sourcePath);
-                                writeStream = fs_1.default.createWriteStream(destinationPath + '.jpeg');
-                                return [4 /*yield*/, fs_2.promises.open(destinationPath + '.jpeg', "w")];
+                                writeStream = fs_1.default.createWriteStream(destinationPath);
+                                return [4 /*yield*/, fs_2.promises.open(destinationPath, "w")];
                             case 1:
                                 file = _c.sent();
                                 _b = (_a = (file)).write;
@@ -89,14 +117,16 @@ var isImageExists = function (filename, folder) { return __awaiter(void 0, void 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                console.log(filename + " " + folder);
                 imageFolder = '';
                 if (folder === origImageFolder) {
-                    imageFolder = path_1.default.join(__dirname, '../public/images');
+                    imageFolder = path_1.default.join(__dirname, '../../public/images');
                 }
                 else if (folder === resizeImageFolder) {
-                    imageFolder = path_1.default.join(__dirname, '../public/rs-images');
+                    imageFolder = path_1.default.join(__dirname, '../../public/rs-images');
                 }
-                if (imageFolder === '') {
+                console.log(imageFolder);
+                if (filename === '' || imageFolder === '') {
                     console.log('false returned');
                     return [2 /*return*/, false];
                 }
@@ -116,36 +146,42 @@ var isImageExists = function (filename, folder) { return __awaiter(void 0, void 
 }); };
 function resizeImage(filename, width, height) {
     return __awaiter(this, void 0, void 0, function () {
-        var isExists, originalPath, destinationPath, isResizeImageExists, e_1;
+        var isExists, destinationPath, origName, originalPath, rsFileName, isResizeImageExists, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, isImageExists(filename, origImageFolder)];
                 case 1:
                     isExists = _a.sent();
-                    originalPath = path_1.default.join(__dirname, '../public/images/' + filename + '.jpeg');
                     destinationPath = '';
                     console.log(isExists);
                     if (!!isExists) return [3 /*break*/, 2];
                     return [2 /*return*/, "__NOT_FOUND__"];
                 case 2:
-                    _a.trys.push([2, 6, , 7]);
-                    return [4 /*yield*/, isImageExists(filename, resizeImageFolder)];
+                    _a.trys.push([2, 7, , 8]);
+                    return [4 /*yield*/, getOriginalImageName(filename)];
                 case 3:
-                    isResizeImageExists = _a.sent();
-                    destinationPath = path_1.default.join(__dirname, '../public/rs-images/' + filename);
-                    console.log(isResizeImageExists);
-                    if (!!isResizeImageExists) return [3 /*break*/, 5];
-                    return [4 /*yield*/, resize(originalPath, destinationPath, width, height)];
+                    origName = _a.sent();
+                    console.log(origName);
+                    originalPath = path_1.default.join(__dirname, '../../public/images/' + origName);
+                    console.log(originalPath);
+                    rsFileName = filename + '_' + width + '_' + height;
+                    return [4 /*yield*/, isImageExists(rsFileName, resizeImageFolder)];
                 case 4:
+                    isResizeImageExists = _a.sent();
+                    destinationPath = path_1.default.join(__dirname, '../../public/rs-images/' + rsFileName + '.jpeg');
+                    console.log(isResizeImageExists);
+                    if (!!isResizeImageExists) return [3 /*break*/, 6];
+                    return [4 /*yield*/, resize(originalPath, destinationPath, width, height)];
+                case 5:
                     _a.sent();
                     console.log('Image Resize Complete!!');
-                    _a.label = 5;
-                case 5: return [3 /*break*/, 7];
-                case 6:
+                    _a.label = 6;
+                case 6: return [3 /*break*/, 8];
+                case 7:
                     e_1 = _a.sent();
                     console.log(e_1.message + "Image Resize Error!!");
-                    return [3 /*break*/, 7];
-                case 7: return [2 /*return*/, destinationPath + '.jpeg'];
+                    return [3 /*break*/, 8];
+                case 8: return [2 /*return*/, destinationPath];
             }
         });
     });

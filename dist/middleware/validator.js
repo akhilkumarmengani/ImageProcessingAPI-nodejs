@@ -26,4 +26,4 @@ var isValidParameters = function (filename, width, height) {
     return isValid;
 };
 var tiny = morgan_1.default('tiny');
-exports.default = { tiny: tiny, validateURL: validateURL };
+exports.default = { tiny: tiny, validateURL: validateURL, isValidParameters: isValidParameters };

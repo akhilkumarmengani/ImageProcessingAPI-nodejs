@@ -51,7 +51,7 @@ routes.get('/image', validator_1.default.validateURL, function (req, res) { retu
         switch (_b.label) {
             case 0:
                 _a = imageutil_1.default.getNameAndExtension(req.query.filename), filename = _a[0], ext = _a[1];
-                console.log('filename - ' + filename);
+                console.log(filename + '-' + ext);
                 width = parseInt(req.query.width);
                 height = parseInt(req.query.height);
                 return [4 /*yield*/, imageutil_1.default.resizeImage(filename, width, height)];
