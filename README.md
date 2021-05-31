@@ -15,17 +15,37 @@ $ npm i express jasmine jasmine-spec-reporter morgan
 ## Scripts
 
 ### Start Application
+```
 $ npm run start
+```
 
 ### Build Application
+```
 $ npm run build
+```
 
 ### Build and Test Specs
+```
 $ npm run test
+```
 
 ### Prettier
+```
 $ npm run prettier
+```
 
 ### ESLint
+```
 $ npm run lint
+```
+
+### Endpoint
+```
+Parameters:
+filename : add image to public/images folder to resize
+width : width of the image after resize
+height : height of the image after resize
+
+http://localhost:3000/api/image?filename=Spacex4&width=600&height=600
+```
 
